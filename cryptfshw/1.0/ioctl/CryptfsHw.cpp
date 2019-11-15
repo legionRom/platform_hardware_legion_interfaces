@@ -54,6 +54,7 @@ CryptfsHw::CryptfsHw() {
 
 // Methods from ::vendor::qti::hardware::cryptfshw::V1_0::ICryptfsHw follow.
 Return<int32_t> CryptfsHw::setIceParam(uint32_t flag) {
+    #ifdef QSEECOM_IOCTL_SET_ICE_INFO
     int fd = 0, ret = 0;
     qseecom_ice_data_t ice_data{};
 
@@ -66,6 +67,11 @@ Return<int32_t> CryptfsHw::setIceParam(uint32_t flag) {
     close(fd);
 
     return ret;
+#else
+    (void)flag;
+    return -1;
+#endif
+
 }
 
 Return<int32_t> CryptfsHw::setKey(const hidl_string& passwd, const hidl_string&) {
