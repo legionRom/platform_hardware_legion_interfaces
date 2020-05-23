@@ -1,4 +1,5 @@
-// Copyright (C) 2019 The LineageOS Project
+//
+// Copyright (C) 2017 The LineageOS Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,35 +14,18 @@
 // limitations under the License.
 
 cc_binary {
-    name: "vendor.qti.hardware.cryptfshw@1.0-service-dlsym-qti",
-    defaults: ["hidl_defaults"],
-    init_rc: ["vendor.qti.hardware.cryptfshw@1.0-service-dlsym-qti.rc"],
-    owner: "qti",
-    product_variables: {
-       legion: {
-            should_skip_waiting_for_qsee: {
-                cflags: ["-DSKIP_WAITING_FOR_QSEE"],
-            },
-        },
-    },
+    name: "android.hardware.vibrator@1.0-service.lineage",
     relative_install_path: "hw",
-    srcs: [
-        "CryptfsHw.cpp",
-        "service.cpp",
-    ],
+    init_rc: ["android.hardware.vibrator@1.0-service.lineage.rc"],
+    srcs: ["service.cpp", "Vibrator.cpp"],
     shared_libs: [
-        "libbase",
-        "libbinder",
-        "libdl",
         "libhidlbase",
         "libhidltransport",
+        "liblog",
+        "libhwbinder",
         "libutils",
-        "vendor.qti.hardware.cryptfshw@1.0",
+        "libhardware",
+        "android.hardware.vibrator@1.0",
     ],
-    vendor: true,
-}
-
-cc_library_headers {
-    name: "libcryptfshw_hidl_headers",
-    export_include_dirs: ["."],
+    proprietary: true,
 }
